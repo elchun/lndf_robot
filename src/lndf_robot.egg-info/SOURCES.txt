@@ -1,0 +1,8 @@
+README.md
+setup.py
+src/lndf_robot.egg-info/PKG-INFO
+src/lndf_robot.egg-info/SOURCES.txt
+src/lndf_robot.egg-info/dependency_links.txt
+src/lndf_robot.egg-info/requires.txt
+src/lndf_robot.egg-info/top_level.txt
+test/test_dataio.py

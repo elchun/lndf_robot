@@ -24,17 +24,36 @@ cd pybullet-planning/pybullet_tools/ikfast/franka_panda
 python setup.py
 ```
 
-**Setup torch scatter**  Install with Conda or see additional instructions [here](https://github.com/rusty1s/pytorch_scatter#pytorch-140).
+**Setup torch scatter**  Install with pip or see additional instructions [here](https://github.com/rusty1s/pytorch_scatter#pytorch-140).  Replace `${CUDA}` with the appropriate version (cpu, cu102, cu113, cu116).  Generally, the torch
+and cuda version of torch-scatter should match those of your pytorch installation.  E.g. the output of  `torch.__version__`
+
+For example, the authors installed with `pip install torch-scatter -f https://data.pyg.org/whl/torch-1.10.1+cu102.html`
 
 ```
-conda install pytorch-scatter -c pyg
+pip install torch-scatter -f https://data.pyg.org/whl/torch-1.10.1+${CUDA}.html
 ```
 
 **Setup environment variables** (this script must be sourced in each new terminal where code from this repository is run)
 ```
-source ndf_env.sh
+source lndf_env.sh
 ```
 
+
+## Quickstart Demo
+**Download pretrained weights**
+```
+./scripts/download_demo_weights.sh
+```
+
+**Download demos**
+```
+./scripts/download_demos.sh
+```
+
+**Download object data**
+```
+./scripts/download_obj_data.sh
+```
 
 
 

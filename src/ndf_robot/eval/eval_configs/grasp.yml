@@ -1,42 +1,10 @@
 setup_args:
-  # exp_dir_suffix: EVAL_ndf_ori_q_grasp_upright_mug
-  # exp_dir_suffix: EVAL_ndf_ori_q_grasp_upright_bowl_handle
-  # exp_dir_suffix: EVAL_ndf_ori_q_grasp_upright_bottle_handle
-  # exp_dir_suffix: EVAL_ndf_ori_q_grasp_upright_bowl
+  # Directory name
+  exp_dir_suffix: DEBUG_grasp_new_setup
 
-  # exp_dir_suffix: EVAL_ndf_ori_q_grasp_anyrot_mug
-  # exp_dir_suffix: EVAL_ndf_ori_q_grasp_anyrot_bowl_handle
-  # exp_dir_suffix: EVAL_ndf_ori_q_grasp_anyrot_bottle_handle
-  # exp_dir_suffix: EVAL_ndf_ori_q_grasp_anyrot_bowl
+  # Demonstrations to use
+  demo_exp: 'lndf_mug_handle_demos'
 
-  # exp_dir_suffix: EVAL_conv_grasp_upright_mug
-  # exp_dir_suffix: EVAL_conv_grasp_upright_bowl_handle
-  # exp_dir_suffix: EVAL_conv_grasp_upright_bottle_handle
-  # exp_dir_suffix: EVAL_conv_grasp_upright_bowl
-
-  # exp_dir_suffix: EVAL_conv_grasp_anyrot_mug
-  # exp_dir_suffix: EVAL_conv_grasp_anyrot_bowl_handle
-  # exp_dir_suffix: EVAL_conv_grasp_anyrot_bottle_handle
-  # exp_dir_suffix: EVAL_conv_grasp_anyrot_bowl
-
-  # exp_dir_suffix: EVAL_GEOM_grasp_upright_mug
-  # exp_dir_suffix: EVAL_GEOM_grasp_upright_bowl_handle
-  # exp_dir_suffix: EVAL_GEOM_grasp_upright_bottle_handle
-  # exp_dir_suffix: EVAL_GEOM_grasp_upright_bowl
-  #
-  # exp_dir_suffix: EVAL_GEOM_grasp_anyrot_mug
-  # exp_dir_suffix: EVAL_GEOM_grasp_anyrot_bowl_handle
-  # exp_dir_suffix: EVAL_GEOM_grasp_anyrot_bottle_handle
-  # exp_dir_suffix: EVAL_GEOM_grasp_anyrot_bowl
-  # exp_dir_suffix: DEBUG_with_LNDF
-
-  exp_dir_suffix: DEBUG_conv_grasp_anyrot_mug_L2
-  # exp_dir_suffix: DEBUG_conv_grasp_anyrot_bowl_handle_L2
-  # exp_dir_suffix: DEBUG_conv_grasp_anyrot_bottle_handle_L2
-  # exp_dir_suffix: DEBUG_conv_grasp_anyrot_bowl_L2
-
-  # demo_exp: 'mug/grasp_rim_hang_handle_gaussian_precise_w_shelf_converted'
-  demo_exp: 'mug/mug_handle_converted'
   seed: 0
   # Choose from GRASP, RACK_PLACE_TELEPORT, SHELF_PLACE_TELEPORT, RACK_PLACE_GRASP
   evaluator_type: GRASP
@@ -47,10 +15,13 @@ evaluator:
   # test_obj_class: bowl_handle_std
   # test_obj_class: bottle_handle_std
   # test_obj_class: bowl_std
-  num_trials: 200
-  # num_trials: 50
+
+  num_trials: 5  # Traditionally we run 200 trials
+
+  # TODO: Get rid of this
   include_avoid_obj: False
   # include_avoid_obj: False
+
   any_pose: True
   # any_pose: False
   obj_scale_low: 0.95
@@ -60,34 +31,10 @@ evaluator:
 # -- Conv config -- #
 model:
   type: CONV_OCC
-  # checkpoint: ndf_vnn/conv_occ_hidden32_anyrot_part2_1/checkpoints/model_final.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden32_anyrot_simfull_0/checkpoints/model_final.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_0/checkpoints/model_final.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden16_anyrot_0/checkpoints/model_final.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden4_anyrot_6/checkpoints/model_final.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden32_anyrot_simocc_0/checkpoints/model_final.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_3/checkpoints/model_final.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_0/checkpoints/model_epoch_0018_iter_271000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_2/checkpoints/model_epoch_0022_iter_333000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_4/checkpoints/model_epoch_0015_iter_228000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_0/checkpoints/model_epoch_0018_iter_271000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_0/checkpoints/model_final.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_4/checkpoints/model_epoch_0017_iter_255000.pth
-
-  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_multicategory_0/checkpoints/model_epoch_0007_iter_331000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_multicategory_part2_0/checkpoints/model_final.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_6/checkpoints/model_epoch_0000_iter_010000.pth
-
-  # Used for main evaluation
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_7/checkpoints/model_epoch_0001_iter_060000.pth
-
-  # Testing with L2 Loss
-  # checkpoint: lndf_refined/2023-01-14_16H36M11S_Sat_conv_hidden_128_with_l2_0/checkpoints/model_epoch_0001_iter_090000.pth
-  checkpoint: lndf_refined/2023-01-15_16H07M47S_Sun_conv_hidden_128_with_l2_0/checkpoints/model_epoch_0000_iter_020000.pth
+  checkpoint: lndf_weights.pth
 
   args:
-    # latent_dim: 64
-    latent_dim: 128
+    latent_dim: 128  # Specify size of latent dimension
     model_type: pointnet
     return_features: True
     sigmoid: False

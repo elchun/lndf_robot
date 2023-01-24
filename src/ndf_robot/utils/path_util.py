@@ -2,7 +2,7 @@ import os, os.path as osp
 
 
 def get_ndf_src():
-    return os.environ['NDF_SOURCE_DIR']
+    return os.environ['LNDF_SOURCE_DIR']
 
 
 def get_ndf_config():

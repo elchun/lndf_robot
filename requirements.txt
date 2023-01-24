@@ -3,7 +3,8 @@ cffi<=1.12.3
 pycparser==2.19
 pymunk==5.5.0
 numpy>=1.16.0
-torch>=1.7 # check if you're on 3090 machine, may need different torch install
+# torch>=1.7 # check if you're on 3090 machine, may need different torch install
+torch>=1.10 # check if you're on 3090 machine, may need different torch install
 torchvision
 tensorboard>=2.0
 matplotlib
@@ -11,10 +12,11 @@ pillow
 h5py
 six
 progressbar2
-opencv-python
+# opencv-python
+opencv-python==4.6.0.66
 PyYAML
-gym
-pygame
+# gym
+# pygame
 transforms3d
 sympy
 tinydb
