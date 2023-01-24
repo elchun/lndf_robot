@@ -1,0 +1,84 @@
+
+setup_args:
+  exp_dir_suffix: GEN_DEBUG
+  # demo_exp: 'grasp_rim_hang_handle_gaussian_precise_w_shelf'
+  demo_exp: 'grasp_rim_hang_handle_gaussian_precise_w_shelf_converted'
+  seed: 0
+
+evaluator:
+  pybullet_viz: False
+  obj_class: mug
+  num_trials: 200
+  include_avoid_obj: False
+  any_pose: True
+
+model:
+  type: CONV_OCC
+  # checkpoint: ndf_vnn/conv_occ_hidden32_anyrot_part2_1/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden32_anyrot_simfull_0/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_0/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden16_anyrot_0/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden4_anyrot_6/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden32_anyrot_simocc_0/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_3/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_0/checkpoints/model_epoch_0018_iter_271000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_2/checkpoints/model_epoch_0022_iter_333000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_4/checkpoints/model_epoch_0015_iter_228000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_0/checkpoints/model_epoch_0018_iter_271000.pth
+  checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_0/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_4/checkpoints/model_epoch_0017_iter_255000.pth
+
+  args:
+    latent_dim: 64
+    model_type: pointnet
+    return_features: True
+    sigmoid: False
+    acts: last
+
+grasp_optimizer:
+  args:
+    opt_iterations: 1000
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+
+place_optimizer:
+  args:
+    opt_iterations: 1000
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+
+
+# With rect query points, z1 is actually pointing up when
+# used as a query point
+# y is along the gripper movement direction
+gripper_query_pts:
+  type: RECT
+  args:
+    n_pts: 1000
+    x: 0.06
+    y: 0.09
+    z1: 0.06
+    z2: 0.02
+
+rack_query_pts:
+  type: ARM
+  args:
+    n_pts: 1000
+    radius: 0.05
+    height: 0.04
+    y_rot_rad: 0.68
+    x_trans: 0.055
+    y_trans: 0
+    z_trans: 0.19
+    # n_pts: 1000
+    # radius: 0.05
+    # height: 0.08
+
+    # y_rot_rad: 0.68
+    # x_trans: 0.04
+    # y_trans: 0
+    # z_trans: 0.17
+
+

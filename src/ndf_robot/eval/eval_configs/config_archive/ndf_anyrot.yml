@@ -1,0 +1,37 @@
+
+setup_args:
+  exp_dir_suffix: NDF_handle_grasp_anyrot
+  demo_exp: 'mug_handle'
+  seed: 0
+
+evaluator:
+  pybullet_viz: False
+  obj_class: mug
+  # obj_class: bowl
+  num_trials: 200
+  include_avoid_obj: False
+  any_pose: True
+
+model:
+  type: VNN_NDF
+  checkpoint: multi_category_weights.pth
+  args:
+    latent_dim: 256
+    model_type: pointnet
+    return_features: True
+    sigmoid: True
+    acts: all
+
+optimizer:
+  args:
+    opt_iterations: 500
+    rand_translate: False
+    use_tsne: False
+
+query_pts:
+  type: SPHERE
+  args:
+    n_pts: 1000
+    radius: 0.07
+
+

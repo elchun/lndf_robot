@@ -1,0 +1,64 @@
+
+setup_args:
+  exp_dir_suffix: GEN_DEBUG_NDF
+  # demo_exp: 'grasp_rim_hang_handle_gaussian_precise_w_shelf'
+  demo_exp: 'grasp_rim_hang_handle_gaussian_precise_w_shelf_converted'
+  seed: 0
+
+evaluator:
+  pybullet_viz: False
+  obj_class: mug
+  num_trials: 200
+  include_avoid_obj: False
+  any_pose: False
+
+model:
+  type: VNN_NDF
+  checkpoint: multi_category_weights.pth
+  args:
+    latent_dim: 256
+    model_type: pointnet
+    return_features: True
+    sigmoid: True
+    acts: all
+
+grasp_optimizer:
+  args:
+    opt_iterations: 1000
+    rand_translate: True
+    use_tsne: False
+    M_override: 10
+
+place_optimizer:
+  args:
+    opt_iterations: 1000
+    rand_translate: True
+    use_tsne: False
+    M_override: 10
+
+
+# With rect query points, z1 is actually pointing up when
+# used as a query point
+# y is along the gripper movement direction
+gripper_query_pts:
+  type: RECT
+  args:
+    n_pts: 1000
+    x: 0.06
+    y: 0.09
+    z1: 0.06
+    z2: 0.02
+
+rack_query_pts:
+  type: ARM
+  args:
+    n_pts: 1000
+    radius: 0.05
+    height: 0.10
+
+    y_rot_rad: 0.68
+    x_trans: 0.04
+    y_trans: 0
+    z_trans: 0.17
+
+

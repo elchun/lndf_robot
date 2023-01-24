@@ -1,0 +1,139 @@
+setup_args:
+  exp_dir_suffix: DEBUG_conv_mug_shelf_grasp
+  # demo_exp: 'mug/grasp_rim_hang_handle_gaussian_precise_w_shelf_converted'
+  demo_exp: 'bowl/grasp_rim_anywhere_place_shelf_all_methods_multi_instance_converted'
+  seed: 0
+  # Choose from GRASP, RACK_PLACE_TELEPORT, SHELF_PLACE_TELEPORT, RACK_PLACE_GRASP, SHELF_PLACE_GRASP
+  # evaluator_type: SHELF_PLACE_TELEPORT
+  # evaluator_type: RACK_PLACE_TELEPORT
+  # evaluator_type: RACK_PLACE_GRASP
+  # evaluator_type: GRASP
+  evaluator_type: SHELF_PLACE_GRASP
+
+evaluator:
+  pybullet_viz: False
+  # test_obj_class: mug
+  test_obj_class: bowl
+  num_trials: 200
+  include_avoid_obj: False
+  any_pose: False
+
+model:
+  type: CONV_OCC
+  # checkpoint: ndf_vnn/conv_occ_hidden32_anyrot_part2_1/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden32_anyrot_simfull_0/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_0/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden16_anyrot_0/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden4_anyrot_6/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden32_anyrot_simocc_0/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_3/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_0/checkpoints/model_epoch_0018_iter_271000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_2/checkpoints/model_epoch_0022_iter_333000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_4/checkpoints/model_epoch_0015_iter_228000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_0/checkpoints/model_epoch_0018_iter_271000.pth
+  checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_0/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_4/checkpoints/model_epoch_0017_iter_255000.pth
+
+  args:
+    latent_dim: 64
+    model_type: pointnet
+    return_features: True
+    sigmoid: False
+    acts: last
+
+grasp_optimizer:
+  args:
+    opt_iterations: 1000
+    # opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+    save_all_opt: False
+
+place_optimizer:
+  args:
+    opt_iterations: 1000
+    # opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+    opt_fname_prefix: 'place_pose_optimized'
+    query_pts_override: True
+    save_all_opt: True
+
+
+# With rect query points, z1 is actually pointing up when
+# used as a query point
+# y is along the gripper movement direction
+gripper_query_pts:
+  type: RECT
+  args:
+    n_pts: 1000
+    x: 0.06
+    y: 0.09
+    z1: 0.06
+    z2: 0.02
+
+rack_query_pts:
+  type: ARM
+  args:
+    n_pts: 1000
+    radius: 0.05
+    height: 0.04
+    y_rot_rad: 0.68
+    x_trans: 0.055
+    y_trans: 0
+    z_trans: 0.19
+    # n_pts: 1000
+    # radius: 0.05
+    # height: 0.08
+
+    # y_rot_rad: 0.68
+    # x_trans: 0.04
+    # y_trans: 0
+    # z_trans: 0.17
+
+shelf_query_pts:
+  type: SHELF
+  args:
+    # n_pts: 1000
+    # radius: 0.04
+    # height: 0.02
+    # y_rot_rad: 0.0
+    # x_trans: 0.0
+    # y_trans: 0.07
+    # z_trans: 0.11
+
+    # n_pts: 1000
+    # radius: 0.04
+    # height: 0.03
+    # y_rot_rad: 0.0
+    # x_trans: 0.0
+    # y_trans: 0.07
+    # z_trans: 0.11
+
+    # n_pts: 1000
+    # radius: 0.10
+    # height: 0.03
+    # y_rot_rad: 0.0
+    # x_trans: 0.0
+    # y_trans: 0.07
+    # z_trans: 0.11
+
+    # n_pts: 1000
+    # radius: 0.08
+    # # radius: 0.15
+    # height: 0.04
+    # # height: 0.1
+    # y_rot_rad: 0.0
+    # x_trans: 0.0
+    # y_trans: 0.07
+    # z_trans: 0.11
+
+    n_pts: 1000
+    radius: 0.1
+    height: 0.1
+    y_rot_rad: 0.0
+    x_trans: 0.0
+    y_trans: 0.07
+    z_trans: 0.11

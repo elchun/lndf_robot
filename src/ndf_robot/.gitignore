@@ -1,0 +1,12 @@
+descriptions/demo_objects/
+descriptions/objects/
+model_weights/
+eval/*
+!eval/*.py
+!eval/*.sh
+!eval/old
+!eval/experiments
+!eval/eval_configs/
+data/
+assets/
+eval_data/

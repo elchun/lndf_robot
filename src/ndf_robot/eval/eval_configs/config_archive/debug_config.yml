@@ -1,0 +1,48 @@
+
+setup_args:
+  exp_dir_suffix: DEBUG
+  # exp_dir_suffix: DEBUG_CONV_OCC_RECT_QUERY
+  seed: 0
+
+evaluator:
+  pybullet_viz: False
+  obj_class: mug
+  num_trials: 200
+  include_avoid_obj: False
+  any_pose: True
+
+model:
+  type: CONV_OCC
+  checkpoint: ndf_vnn/conv_occ_hidden32_anyrot_part2_1/checkpoints/model_epoch_0007_iter_119000.pth
+  args:
+    latent_dim: 32
+    model_type: pointnet
+    return_features: True
+    sigmoid: False
+    acts: last
+
+optimizer:
+  args:
+    opt_iterations: 1000
+    rand_translate: True
+
+# query_pts:
+#   type: SPHERE
+#   args:
+#     n_pts: 1000
+#     # radius: 0.05
+#     radius: 0.09
+
+# With rect query points, z1 is actually pointing up when
+# used as a query point
+# y is along the gripper movement direction
+query_pts:
+  type: RECT
+  args:
+    n_pts: 1000
+    x: 0.06
+    y: 0.09
+    z1: 0.06
+    z2: 0.02
+
+

@@ -1,0 +1,35 @@
+
+setup_args:
+  exp_dir_suffix: CONV_OCC_upright_no_translate
+  seed: 0
+
+evaluator:
+  pybullet_viz: False
+  obj_class: mug
+  num_trials: 200
+  include_avoid_obj: False
+  any_pose: False
+
+model:
+  type: CONV_OCC
+  checkpoint: ndf_vnn/conv_occ_hidden32_anyrot_part2_1/checkpoints/model_epoch_0007_iter_119000.pth
+  args:
+    latent_dim: 32
+    model_type: pointnet
+    return_features: True
+    sigmoid: False
+    acts: last
+
+optimizer:
+  args:
+    opt_iterations: 1000
+    rand_translate: False
+
+query_pts:
+  type: SPHERE
+  args:
+    n_pts: 500
+    # radius: 0.05
+    radius: 0.03
+
+

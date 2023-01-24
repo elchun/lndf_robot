@@ -1,0 +1,294 @@
+# Config for rack pick and place (Mug demo trials)
+# Last modified: 2023-01-11 for geometric matching
+
+setup_args:
+  # exp_dir_suffix: EVAL_ndf_q_ori_rack_grasp_upright_mug
+  # exp_dir_suffix: EVAL_ndf_q_ori_rack_grasp_upright_bowl_handle
+  # exp_dir_suffix: EVAL_ndf_q_ori_rack_grasp_upright_bottle_handle
+  # exp_dir_suffix: EVAL_ndf_q_ori_rack_grasp_ori_q_anyrot_mug
+  # exp_dir_suffix: EVAL_ndf_q_ori_rack_grasp_ori_q_anyrot_bowl_handle
+  # exp_dir_suffix: EVAL_ndf_q_ori_rack_grasp_ori_q_anyrot_bottle_handle
+
+  # exp_dir_suffix: EVAL_conv_rack_grasp_upright_mug
+  # exp_dir_suffix: EVAL_conv_rack_grasp_upright_bowl_handle
+  # exp_dir_suffix: EVAL_conv_rack_grasp_upright_bottle_handle
+  # exp_dir_suffix: EVAL_conv_rack_grasp_anyrot_mug
+  # exp_dir_suffix: EVAL_conv_rack_grasp_anyrot_bowl_handle
+  # exp_dir_suffix: EVAL_conv_rack_grasp_anyrot_bottle_handle
+
+  # exp_dir_suffix: EVAL_GEOM_rack_grasp_upright_mug
+  # exp_dir_suffix: EVAL_GEOM_rack_grasp_upright_bowl_handle
+  # exp_dir_suffix: EVAL_GEOM_rack_grasp_upright_bottle_handle
+  # exp_dir_suffix: EVAL_GEOM_rack_grasp_anyrot_mug
+  # exp_dir_suffix: EVAL_GEOM_rack_grasp_anyrot_bowl_handle
+  # exp_dir_suffix: EVAL_GEOM_rack_grasp_anyrot_bottle_handle
+
+  # exp_dir_suffix: DEBUG_rack_grasp
+  exp_dir_suffix: DEBUG_conv_rack_grasp_upright_mug
+  # exp_dir_suffix: DEBUG_conv_rack_grasp_upright_bowl_handle
+
+  demo_exp: 'mug/grasp_rim_hang_handle_gaussian_precise_w_shelf_converted'
+  seed: 0
+
+  # Choose from GRASP, RACK_PLACE_TELEPORT, SHELF_PLACE_TELEPORT, RACK_PLACE_GRASP
+  evaluator_type: RACK_PLACE_GRASP_IDEAL
+
+evaluator:
+  pybullet_viz: False
+  test_obj_class: mug_std
+  # test_obj_class: bowl_handle_std
+  # test_obj_class: bottle_handle_std
+  num_trials: 200
+  # num_trials: 25
+  # include_avoid_obj: True
+  include_avoid_obj: False  # Legacy, do not change
+  any_pose: True
+  # any_pose: False
+
+  # Same for all trials
+  obj_scale_low: 0.95
+  obj_scale_high: 1.05
+  obj_scale_default: 1.0
+
+# -- Geom config -- #
+# model:
+#   type: CONV_OCC
+#   # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_0/checkpoints/model_final.pth
+#   # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_4/checkpoints/model_epoch_0017_iter_255000.pth
+#   # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_multicategory_0/checkpoints/model_epoch_0007_iter_331000.pth
+#   # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_multicategory_part2_0/checkpoints/model_epoch_0001_iter_057000.pth
+#   # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_multicategory_part2_0/checkpoints/model_final.pth
+#   # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_margin_4/checkpoints/model_epoch_0000_iter_044000.pth
+#   # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_1/checkpoints/model_epoch_0003_iter_202000.pth
+#   # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s2_9/checkpoints/model_epoch_0001_iter_094000.pth
+#   # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s3_7/checkpoints/model_epoch_0002_iter_130000.pth
+#   # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_1/checkpoints/model_epoch_0008_iter_467000.pth
+#   # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_0/checkpoints/model_epoch_0000_iter_017000.pth
+#   # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_3/checkpoints/model_epoch_0000_iter_048000.pth
+#   checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_7/checkpoints/model_epoch_0001_iter_060000.pth
+
+#   args:
+#     # latent_dim: 64
+#     latent_dim: 128
+#     model_type: pointnet
+#     return_features: True
+#     sigmoid: False
+#     acts: last
+
+
+# grasp_optimizer:
+#   opt_type:  GEOM # Choose between LNDF and GEOM
+#   args:
+#     # opt_iterations: 1000
+#     opt_iterations: 500
+#     rand_translate: True
+#     use_tsne: False
+#     M_override: 20
+#     cos_loss: True
+
+# place_optimizer:
+#   opt_type:  GEOM # Choose between LNDF and GEOM
+#   args:
+#     # opt_iterations: 1000
+#     opt_iterations: 500
+#     rand_translate: True
+#     use_tsne: False
+#     M_override: 20
+#     opt_fname_prefix: 'place_pose_optimized'
+#     query_pts_override: True
+#     cos_loss: True
+
+# rack_query_pts:
+#   type: ARM
+#   args:
+#     n_pts: 1000
+#     radius: 0.05
+#     height: 0.04
+#     y_rot_rad: 0.68
+#     x_trans: 0.055
+#     y_trans: 0
+#     z_trans: 0.19
+
+# # With rect query points, z1 is actually pointing up when
+# # used as a query point
+# # y is along the gripper movement direction
+# gripper_query_pts:
+#   type: RECT
+#   args:
+#     n_pts: 1000
+#     x: 0.06
+#     y: 0.09
+#     z1: 0.06
+#     z2: 0.02
+
+
+
+
+# -- Conv config -- #
+model:
+  type: CONV_OCC
+  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_0/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_4/checkpoints/model_epoch_0017_iter_255000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_multicategory_0/checkpoints/model_epoch_0007_iter_331000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_multicategory_part2_0/checkpoints/model_epoch_0001_iter_057000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_multicategory_part2_0/checkpoints/model_final.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_margin_4/checkpoints/model_epoch_0000_iter_044000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_1/checkpoints/model_epoch_0003_iter_202000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s2_9/checkpoints/model_epoch_0001_iter_094000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s3_7/checkpoints/model_epoch_0002_iter_130000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_1/checkpoints/model_epoch_0008_iter_467000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_0/checkpoints/model_epoch_0000_iter_017000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_3/checkpoints/model_epoch_0000_iter_048000.pth
+  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_7/checkpoints/model_epoch_0001_iter_060000.pth
+
+
+  # checkpoint: lndf_refined/2023-01-15_16H07M47S_Sun_conv_hidden_128_with_l2_0/checkpoints/model_epoch_0001_iter_060000.pth
+  # checkpoint: lndf_refined/2023-01-16_13H28M16S_Mon_conv_hidden_128_with_l2_light_0/checkpoints/model_epoch_0000_iter_010000.pth
+  # checkpoint: lndf_refined/2023-01-16_13H28M16S_Mon_conv_hidden_128_with_l2_light_0/checkpoints/model_epoch_0001_iter_060000.pth
+  # checkpoint: lndf_refined/2023-01-16_13H28M16S_Mon_conv_hidden_128_with_l2_light_0/checkpoints/model_epoch_0002_iter_120000.pth
+  # checkpoint: lndf_refined/2023-01-17_01H02M11S_Tue_conv_hidden_128_with_l2_0/checkpoints/model_epoch_0000_iter_040000.pth
+  # checkpoint: lndf_refined/2023-01-17_13H53M56S_Tue_conv_hidden_128_with_l2_r0p05_0/checkpoints/model_epoch_0002_iter_120000.pth
+  # checkpoint: lndf_refined/2023-01-17_13H55M38S_Tue_conv_hidden_128_with_l2_r0p02_0/checkpoints/model_epoch_0002_iter_120000.pth
+  # checkpoint: lndf_refined/2023-01-17_13H53M56S_Tue_conv_hidden_128_with_l2_r0p05_0/checkpoints/model_epoch_0002_iter_162000.pth
+  # checkpoint: lndf_refined/2023-01-18_14H21M46S_Wed_conv_hidden_128_with_l2_r0p04_0/checkpoints/model_epoch_0000_iter_030000.pth
+  # checkpoint: lndf_refined/2023-01-18_21H53M09S_Wed_conv_hidden_128_with_l2_r0p1_0/checkpoints/model_epoch_0000_iter_006000.pth
+  # checkpoint:  lndf_refined/2023-01-18_21H53M09S_Wed_conv_hidden_128_with_l2_r0p1_0/checkpoints/model_epoch_0001_iter_060000.pth
+  checkpoint:  lndf_refined/2023-01-21_15H00M07S_Sat_conv_hidden_128_with_l2_r0p1_0/checkpoints/model_epoch_0002_iter_120000.pth
+  # checkpoint:  lndf_refined/2023-01-21_15H00M07S_Sat_conv_hidden_128_with_l2_r0p1_0/checkpoints/model_epoch_0004_iter_240000.pth
+
+  args:
+    # latent_dim: 64
+    latent_dim: 128
+    model_type: pointnet
+    return_features: True
+    sigmoid: False
+    acts: last
+
+
+grasp_optimizer:
+  opt_type:  LNDF # Choose between LNDF and GEOM
+  args:
+    # opt_iterations: 1000
+    opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+    cos_loss: True
+    # save_all_opt: True
+
+place_optimizer:
+  opt_type:  LNDF # Choose between LNDF and GEOM
+  args:
+    # opt_iterations: 1000
+    opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+    opt_fname_prefix: 'place_pose_optimized'
+    query_pts_override: True
+    cos_loss: True
+
+rack_query_pts:
+  type: ARM
+  args:
+    n_pts: 1000
+    radius: 0.05
+    height: 0.04
+    y_rot_rad: 0.68
+    x_trans: 0.055
+    y_trans: 0
+    z_trans: 0.19
+    # n_pts: 1000
+    # radius: 0.05
+    # height: 0.08
+
+    # y_rot_rad: 0.68
+    # x_trans: 0.04
+    # y_trans: 0
+    # z_trans: 0.17
+
+# With rect query points, z1 is actually pointing up when
+# used as a query point
+# y is along the gripper movement direction
+gripper_query_pts:   # This is the set used in the original conv occ trials
+  type: RECT
+  args:
+    n_pts: 1000
+    x: 0.06
+    y: 0.09
+    z1: 0.06
+    z2: 0.02
+
+
+# gripper_query_pts:   # This is the set for new L2 loss trials
+#   type: RECT
+#   args:
+#     n_pts: 1000
+#     x: 0.06
+#     y: 0.09
+#     z1: 0.06
+#     z2: 0.02
+
+
+
+
+# # -- NDF Config -- #
+# model:
+#   type: VNN_NDF
+#   checkpoint: multi_category_weights.pth
+#   args:
+#     latent_dim: 256
+#     model_type: pointnet
+#     return_features: True
+#     sigmoid: True
+#     acts: all
+
+# grasp_optimizer:
+#   args:
+#     opt_iterations: 500
+#     rand_translate: False
+#     use_tsne: False
+#     M_override: 10
+
+# place_optimizer:
+#   args:
+#     opt_iterations: 500
+#     rand_translate: False
+#     use_tsne: False
+#     opt_fname_prefix: 'place_pose_optimized'
+#     M_override: 10
+
+# # With rect query points, z1 is actually pointing up when
+# # used as a query point
+# # y is along the gripper movement direction
+# # gripper_query_pts:
+# #   type: RECT
+# #   args:
+# #     n_pts: 1000
+# #     x: 0.06
+# #     y: 0.09
+# #     z1: 0.06
+# #     z2: 0.02
+
+# # Original ndf
+# gripper_query_pts:
+#   type: NDF_GRIPPER
+#   args:
+#     n_pts: 1000
+
+# # rack_query_pts:
+# #   type: ARM
+# #   args:
+# #     n_pts: 1000
+# #     radius: 0.05
+# #     height: 0.04
+# #     y_rot_rad: 0.68
+# #     x_trans: 0.055
+# #     y_trans: 0
+# #     z_trans: 0.19
+
+# # Original ndf
+# rack_query_pts:
+#   type: NDF_RACK
+#   args:
+#     n_pts: 1000
