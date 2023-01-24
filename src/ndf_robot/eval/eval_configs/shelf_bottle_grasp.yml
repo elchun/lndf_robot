@@ -1,38 +1,7 @@
 setup_args:
-  # exp_dir_suffix: EVAL_conv_shelf_upright_bottle
-  # exp_dir_suffix: EVAL_conv_shelf_upright_bottle_handle
-  # exp_dir_suffix: EVAL_conv_shelf_anyrot_bottle
-  # exp_dir_suffix: EVAL_conv_shelf_anyrot_bottle_handle
+  exp_dir_suffix: DEBUG_shelf_bottle_grasp
 
-  # exp_dir_suffix: EVAL_ndf_q_ori_shelf_upright_bottle
-  # exp_dir_suffix: EVAL_ndf_q_ori_shelf_upright_bottle_handle
-  # exp_dir_suffix: EVAL_ndf_q_ori_shelf_anyrot_bottle
-  # exp_dir_suffix: EVAL_ndf_q_ori_shelf_anyrot_bottle_handle
-
-
-  # exp_dir_suffix: DEBUG_ALL_OPT_shelf_bottle_upright_smol_q
-  # exp_dir_suffix: DEBUG_shelf_bottle_anyrot_dim128_ori_shelf_tsne
-  # exp_dir_suffix: DEBUG_ALL_OPT_shelf_bottle_anyrot_simocc
-  # exp_dir_suffix: DEBUG_shelf_bottle_bowl_place
-  # exp_dir_suffix: DEBUG_shelf_bottle_upright_dim128_ori_shelf
-
-  # exp_dir_suffix: DEBUG_ndf
-
-  # exp_dir_suffix: ABLAT_128OccOnly_shelf_anyrot_bottle
-  # exp_dir_suffix: ABLAT_128HardLoss_shelf_anyrot_bottle
-  # exp_dir_suffix: ABLAT_128DistLoss_shelf_anyrot_bottle
-
-  # exp_dir_suffix: ABLAT_128Random_shelf_anyrot_bottle
-  # exp_dir_suffix: ABLAT_32DistLoss_shelf_anyrot_bottle
-
-  # exp_dir_suffix: EVAL_GEOM_shelf_upright_bottle
-  # exp_dir_suffix: EVAL_GEOM_shelf_upright_bottle_handle
-  # exp_dir_suffix: EVAL_GEOM_shelf_anyrot_bottle
-  # exp_dir_suffix: EVAL_GEOM_shelf_anyrot_bottle_handle
-
-  exp_dir_suffix: DEBUG_conv_shelf_anyrot_bottle_l2
-
-  demo_exp: 'bottle/grasp_side_place_shelf_with_collision'
+  demo_exp: 'lndf_bottle_demos'
   seed: 0
   # Choose from GRASP, RACK_PLACE_TELEPORT, SHELF_PLACE_TELEPORT, RACK_PLACE_GRASP, SHELF_PLACE_TELEPORT
   # evaluator_type: SHELF_PLACE_TELEPORT
@@ -46,7 +15,7 @@ evaluator:
   # test_obj_class: bottle_handle_std # Choose from mug, bowl, bottle
   # test_obj_class: bowl_std # Choose from mug, bowl, bottle
   # test_obj_class: mug
-  num_trials: 200
+  num_trials: 5
   include_avoid_obj: False
   any_pose: True
   # any_pose: False
@@ -167,21 +136,8 @@ evaluator:
 # -- Conv config -- #
 model:
   type: CONV_OCC
-  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_0/checkpoints/model_final.pth
-  # These are ablation studies
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_0/checkpoints/model_epoch_0008_iter_508000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s3_7/checkpoints/model_epoch_0002_iter_132000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_multicategory_latent_sim_occ_neg_se3_s4_1/checkpoints/model_epoch_0005_iter_326000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_7/checkpoints/model_epoch_0000_iter_000000.pth
 
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_7/checkpoints/model_epoch_0001_iter_060000.pth  <-- This is the best one
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_0/checkpoints/model_epoch_0000_iter_000000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden32_anyrot_dist_cont_1/checkpoints/model_epoch_0001_iter_060000.pth
-  # checkpoint: lndf_refined/2023-01-15_16H07M47S_Sun_conv_hidden_128_with_l2_0/checkpoints/model_epoch_0001_iter_060000.pth
-  # checkpoint: lndf_refined/2023-01-15_16H07M47S_Sun_conv_hidden_128_with_l2_0/checkpoints/model_epoch_0000_iter_030000.pth
-  # checkpoint: lndf_refined/2023-01-17_13H53M56S_Tue_conv_hidden_128_with_l2_r0p05_0/checkpoints/model_epoch_0002_iter_162000.pth
-  # checkpoint: lndf_refined/2023-01-17_13H53M56S_Tue_conv_hidden_128_with_l2_r0p05_0/checkpoints/model_epoch_0002_iter_120000.pth
-  checkpoint:  lndf_refined/2023-01-21_15H00M07S_Sat_conv_hidden_128_with_l2_r0p1_0/checkpoints/model_epoch_0002_iter_120000.pth
+  checkpoint: lndf_weights.pth
 
   args:
     # latent_dim: 32

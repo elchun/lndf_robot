@@ -1,5 +1,35 @@
 <?xml version="0.0" ?>
 <robot name="table.urdf">
+  <material name="Black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+  <material name="Blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+  <material name="Green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+  <material name="Grey">
+    <color rgba="0.5 0.5 0.5 1.0"/>
+  </material>
+  <material name="Light_Grey">
+    <color rgba="0.8 0.8 0.8 1.0"/>
+  </material>
+  <material name="Ivory">
+    <color rgba="1.0 1.0 0.94 1.0"/>
+  </material>
+  <material name="Orange">
+    <color rgba="1.0 0.423529411765 0.0392156862745 1.0"/>
+  </material>
+  <material name="Brown">
+    <color rgba="0.870588235294 0.811764705882 0.764705882353 1.0"/>
+  </material>
+  <material name="Red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+  <material name="White">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
   <link name="baseLink">
     <contact>
       <lateral_friction value="1.0"/>
@@ -51,6 +81,32 @@
         <mesh filename="table.obj" scale="0.1 0.1 0.58"/>
       </geometry>
     </visual>
+  </link>
+  <joint name="table2shelf" type="fixed">
+    <parent link="baseLink"/>
+    <child link="shelf"/>
+    <origin rpy="0 0 -1.57" xyz="-0.5 0.125 0.625"/>
+  </joint>
+  <link name="shelf">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="shelf_back.stl" scale="0.75 0.75 0.5"/>
+        <!-- <mesh filename="shelf_back.stl" scale="1.0 1.0 1.0"/> -->
+      </geometry>
+      <material name="Ivory"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <!-- <mesh filename="shelf_back.stl" scale="1.0 1.0 1.0"/> -->
+        <mesh filename="shelf_back.stl" scale="1.0 0.75 0.5"/>
+	<!-- <mesh filename="shelf_back.stl" scale="0.75 0.75 0.5"/> -->
+      </geometry>
+    </collision>
+    <contact>
+      <lateral_friction value="0.2"/>
+    </contact>
   </link>
 </robot>
 

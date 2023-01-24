@@ -1,33 +1,7 @@
-# Config for rack pick and place (Mug demo trials)
-# Last modified: 2023-01-11 for geometric matching
-
 setup_args:
-  # exp_dir_suffix: EVAL_ndf_q_ori_rack_grasp_upright_mug
-  # exp_dir_suffix: EVAL_ndf_q_ori_rack_grasp_upright_bowl_handle
-  # exp_dir_suffix: EVAL_ndf_q_ori_rack_grasp_upright_bottle_handle
-  # exp_dir_suffix: EVAL_ndf_q_ori_rack_grasp_ori_q_anyrot_mug
-  # exp_dir_suffix: EVAL_ndf_q_ori_rack_grasp_ori_q_anyrot_bowl_handle
-  # exp_dir_suffix: EVAL_ndf_q_ori_rack_grasp_ori_q_anyrot_bottle_handle
+  exp_dir_suffix: DEBUG_rack_grasp_new_setup
 
-  # exp_dir_suffix: EVAL_conv_rack_grasp_upright_mug
-  # exp_dir_suffix: EVAL_conv_rack_grasp_upright_bowl_handle
-  # exp_dir_suffix: EVAL_conv_rack_grasp_upright_bottle_handle
-  # exp_dir_suffix: EVAL_conv_rack_grasp_anyrot_mug
-  # exp_dir_suffix: EVAL_conv_rack_grasp_anyrot_bowl_handle
-  # exp_dir_suffix: EVAL_conv_rack_grasp_anyrot_bottle_handle
-
-  # exp_dir_suffix: EVAL_GEOM_rack_grasp_upright_mug
-  # exp_dir_suffix: EVAL_GEOM_rack_grasp_upright_bowl_handle
-  # exp_dir_suffix: EVAL_GEOM_rack_grasp_upright_bottle_handle
-  # exp_dir_suffix: EVAL_GEOM_rack_grasp_anyrot_mug
-  # exp_dir_suffix: EVAL_GEOM_rack_grasp_anyrot_bowl_handle
-  # exp_dir_suffix: EVAL_GEOM_rack_grasp_anyrot_bottle_handle
-
-  # exp_dir_suffix: DEBUG_rack_grasp
-  exp_dir_suffix: DEBUG_conv_rack_grasp_upright_mug
-  # exp_dir_suffix: DEBUG_conv_rack_grasp_upright_bowl_handle
-
-  demo_exp: 'mug/grasp_rim_hang_handle_gaussian_precise_w_shelf_converted'
+  demo_exp: 'lndf_mug_demos'
   seed: 0
 
   # Choose from GRASP, RACK_PLACE_TELEPORT, SHELF_PLACE_TELEPORT, RACK_PLACE_GRASP
@@ -38,7 +12,7 @@ evaluator:
   test_obj_class: mug_std
   # test_obj_class: bowl_handle_std
   # test_obj_class: bottle_handle_std
-  num_trials: 200
+  num_trials: 5
   # num_trials: 25
   # include_avoid_obj: True
   include_avoid_obj: False  # Legacy, do not change
@@ -127,37 +101,10 @@ evaluator:
 # -- Conv config -- #
 model:
   type: CONV_OCC
-  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_0/checkpoints/model_final.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_latent_margin_4/checkpoints/model_epoch_0017_iter_255000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_multicategory_0/checkpoints/model_epoch_0007_iter_331000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_multicategory_part2_0/checkpoints/model_epoch_0001_iter_057000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden64_anyrot_multicategory_part2_0/checkpoints/model_final.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_margin_4/checkpoints/model_epoch_0000_iter_044000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_1/checkpoints/model_epoch_0003_iter_202000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s2_9/checkpoints/model_epoch_0001_iter_094000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s3_7/checkpoints/model_epoch_0002_iter_130000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_1/checkpoints/model_epoch_0008_iter_467000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_0/checkpoints/model_epoch_0000_iter_017000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_3/checkpoints/model_epoch_0000_iter_048000.pth
-  # checkpoint: ndf_vnn/conv_occ_hidden128_anyrot_multicategory_latent_sim_occ_neg_se3_s4_7/checkpoints/model_epoch_0001_iter_060000.pth
 
-
-  # checkpoint: lndf_refined/2023-01-15_16H07M47S_Sun_conv_hidden_128_with_l2_0/checkpoints/model_epoch_0001_iter_060000.pth
-  # checkpoint: lndf_refined/2023-01-16_13H28M16S_Mon_conv_hidden_128_with_l2_light_0/checkpoints/model_epoch_0000_iter_010000.pth
-  # checkpoint: lndf_refined/2023-01-16_13H28M16S_Mon_conv_hidden_128_with_l2_light_0/checkpoints/model_epoch_0001_iter_060000.pth
-  # checkpoint: lndf_refined/2023-01-16_13H28M16S_Mon_conv_hidden_128_with_l2_light_0/checkpoints/model_epoch_0002_iter_120000.pth
-  # checkpoint: lndf_refined/2023-01-17_01H02M11S_Tue_conv_hidden_128_with_l2_0/checkpoints/model_epoch_0000_iter_040000.pth
-  # checkpoint: lndf_refined/2023-01-17_13H53M56S_Tue_conv_hidden_128_with_l2_r0p05_0/checkpoints/model_epoch_0002_iter_120000.pth
-  # checkpoint: lndf_refined/2023-01-17_13H55M38S_Tue_conv_hidden_128_with_l2_r0p02_0/checkpoints/model_epoch_0002_iter_120000.pth
-  # checkpoint: lndf_refined/2023-01-17_13H53M56S_Tue_conv_hidden_128_with_l2_r0p05_0/checkpoints/model_epoch_0002_iter_162000.pth
-  # checkpoint: lndf_refined/2023-01-18_14H21M46S_Wed_conv_hidden_128_with_l2_r0p04_0/checkpoints/model_epoch_0000_iter_030000.pth
-  # checkpoint: lndf_refined/2023-01-18_21H53M09S_Wed_conv_hidden_128_with_l2_r0p1_0/checkpoints/model_epoch_0000_iter_006000.pth
-  # checkpoint:  lndf_refined/2023-01-18_21H53M09S_Wed_conv_hidden_128_with_l2_r0p1_0/checkpoints/model_epoch_0001_iter_060000.pth
-  checkpoint:  lndf_refined/2023-01-21_15H00M07S_Sat_conv_hidden_128_with_l2_r0p1_0/checkpoints/model_epoch_0002_iter_120000.pth
-  # checkpoint:  lndf_refined/2023-01-21_15H00M07S_Sat_conv_hidden_128_with_l2_r0p1_0/checkpoints/model_epoch_0004_iter_240000.pth
+  checkpoint: lndf_weights.pth
 
   args:
-    # latent_dim: 64
     latent_dim: 128
     model_type: pointnet
     return_features: True
