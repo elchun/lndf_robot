@@ -1,23 +1,13 @@
 import argparse
 import random
-import time
 from datetime import datetime
 import yaml
-# from typing import Callable
 
 import os
 import os.path as osp
 
 import numpy as np
 import torch
-import pybullet as p
-
-from scipy.spatial.transform import Rotation as R
-
-from airobot import Robot
-from airobot import log_info, log_warn, log_debug, set_log_level
-from airobot.utils import common
-from airobot.utils.common import euler2quat
 
 import ndf_robot.model.vnn_occupancy_net.vnn_occupancy_net_pointnet_dgcnn \
     as vnn_occupancy_network
@@ -26,17 +16,8 @@ import ndf_robot.model.conv_occupancy_net.conv_occupancy_net \
 
 from ndf_robot.opt.optimizer_lite import OccNetOptimizer
 from ndf_robot.opt.optimizer_geom import GeomOptimizer
-from ndf_robot.robot.multicam import MultiCams
-from ndf_robot.utils.franka_ik import FrankaIK
 
 from ndf_robot.utils import util, path_util
-from ndf_robot.config.default_cam_cfg import get_default_cam_cfg
-from ndf_robot.utils.eval_gen_utils import (
-    soft_grasp_close, constraint_grasp_close, constraint_obj_world, constraint_grasp_open,
-    safeCollisionFilterPair, object_is_still_grasped, get_ee_offset, post_process_grasp_point,
-    process_demo_data_rack, process_demo_data_shelf, process_xq_data, process_xq_rs_data, safeRemoveConstraint,
-    object_is_intersecting
-)
 from ndf_robot.eval.evaluate_general_types import (ExperimentTypes, ModelTypes,
     QueryPointTypes, TrialResults, RobotIDs, SimConstants, TrialData)
 from ndf_robot.eval.query_points import QueryPoints
@@ -44,16 +25,8 @@ from ndf_robot.eval.demo_io import DemoIO
 
 from ndf_robot.eval.experiments.evaluate_network import EvaluateNetwork
 
-from ndf_robot.eval.experiments.evaluate_grasp import EvaluateGrasp
 from ndf_robot.eval.experiments.evaluate_grasp_teleport import EvaluateGraspTeleport
-
-from ndf_robot.eval.experiments.evaluate_rack_place_teleport import EvaluateRackPlaceTeleport
-from ndf_robot.eval.experiments.evaluate_rack_place_grasp import EvaluateRackPlaceGrasp
-from ndf_robot.eval.experiments.evaluate_rack_place_grasp_ideal import EvaluateRackPlaceGraspIdeal
 from ndf_robot.eval.experiments.evaluate_rack_place_grasp_ideal_step import EvaluateRackPlaceGraspIdealStep
-
-from ndf_robot.eval.experiments.evaluate_shelf_place_teleport import EvaluateShelfPlaceTeleport
-from ndf_robot.eval.experiments.evaluate_shelf_place_grasp import EvaluateShelfPlaceGrasp
 from ndf_robot.eval.experiments.evaluate_shelf_place_grasp_ideal import EvaluateShelfPlaceGraspIdeal
 
 
@@ -97,19 +70,11 @@ class EvaluateNetworkSetup():
 
         evaluator_type: str = setup_dict['evaluator_type']
 
-        if evaluator_type == 'GRASP':
+        if evaluator_type == 'GRASP':  # Used
             return self._grasp_setup()
-        elif evaluator_type == 'RACK_PLACE_TELEPORT':
-            return self._rack_place_teleport_setup()
-        elif evaluator_type == 'SHELF_PLACE_TELEPORT':
-            return self._shelf_place_teleport_setup()
-        elif evaluator_type == 'RACK_PLACE_GRASP':
-            return self._rack_place_grasp_setup()
-        elif evaluator_type == 'SHELF_PLACE_GRASP':
-            return self._shelf_place_grasp_setup()
-        elif evaluator_type == 'RACK_PLACE_GRASP_IDEAL':
+        elif evaluator_type == 'RACK_PLACE_GRASP_IDEAL':  # Used
             return self._rack_place_grasp_ideal_setup()
-        elif evaluator_type == 'SHELF_PLACE_GRASP_IDEAL':
+        elif evaluator_type == 'SHELF_PLACE_GRASP_IDEAL':  #used
             return self._shelf_place_grasp_ideal_setup()
         else:
             raise ValueError('Invalid evaluator type.')
@@ -152,103 +117,6 @@ class EvaluateNetworkSetup():
 
         return experiment
 
-    def _rack_place_teleport_setup(self) -> EvaluateNetwork:
-        """
-        Not commonly used --> Legacy for teleporting objects onto the rack
-
-        Returns:
-            EvaluateNetwork: experiment object
-        """
-        setup_config = self.config_dict['setup_args']
-        obj_class = self.config_dict['evaluator']['test_obj_class']
-
-        model = self._create_model(self.config_dict['model'])
-        rack_query_pts = self._create_query_pts(self.config_dict['rack_query_pts'])
-        eval_save_dir = self._create_eval_dir(setup_config)
-
-        evaluator_config = self.config_dict['evaluator']
-        shapenet_obj_dir = osp.join(path_util.get_ndf_obj_descriptions(),
-            obj_class + '_centered_obj_normalized')
-
-        demo_load_dir = osp.join(path_util.get_ndf_data(), 'demos',
-            setup_config['demo_exp'])
-
-        place_optimizer = self._create_optimizer(self.config_dict['place_optimizer'],
-            model, rack_query_pts, eval_save_dir)
-
-        experiment = EvaluateRackPlaceTeleport(place_optimizer=place_optimizer,
-            seed=self.seed, shapenet_obj_dir=shapenet_obj_dir,
-            eval_save_dir=eval_save_dir, demo_load_dir=demo_load_dir,
-            **evaluator_config)
-
-        return experiment
-
-    def _shelf_place_teleport_setup(self) -> EvaluateNetwork:
-        """
-        Not commonly used --> Legacy for teleporting objects onto shelf
-
-        Returns:
-            EvaluateNetwork: experiment object.
-        """
-        setup_config = self.config_dict['setup_args']
-        obj_class = self.config_dict['evaluator']['test_obj_class']
-
-        model = self._create_model(self.config_dict['model'])
-        shelf_query_pts = self._create_query_pts(self.config_dict['shelf_query_pts'])
-        eval_save_dir = self._create_eval_dir(setup_config)
-
-        evaluator_config = self.config_dict['evaluator']
-        shapenet_obj_dir = osp.join(path_util.get_ndf_obj_descriptions(),
-            obj_class + '_centered_obj_normalized')
-
-        demo_load_dir = osp.join(path_util.get_ndf_data(), 'demos',
-            setup_config['demo_exp'])
-
-        place_optimizer = self._create_optimizer(self.config_dict['place_optimizer'],
-            model, shelf_query_pts, eval_save_dir)
-
-        experiment = EvaluateShelfPlaceTeleport(place_optimizer=place_optimizer,
-            seed=self.seed, shapenet_obj_dir=shapenet_obj_dir,
-            eval_save_dir=eval_save_dir, demo_load_dir=demo_load_dir,
-            **evaluator_config)
-
-        return experiment
-
-    def _rack_place_grasp_setup(self) -> EvaluateNetwork:
-        """
-        Raw rack place experiment.  Uses arm to move object to rack.
-
-        Returns:
-            EvaluateNetwork: experiment object.
-        """
-        setup_config = self.config_dict['setup_args']
-        obj_class = self.config_dict['evaluator']['test_obj_class']
-
-        model = self._create_model(self.config_dict['model'])
-        gripper_query_pts = self._create_query_pts(self.config_dict['gripper_query_pts'])
-        rack_query_pts = self._create_query_pts(self.config_dict['rack_query_pts'])
-        eval_save_dir = self._create_eval_dir(setup_config)
-
-        evaluator_config = self.config_dict['evaluator']
-        shapenet_obj_dir = osp.join(path_util.get_ndf_obj_descriptions(),
-            obj_class + '_centered_obj_normalized')
-
-        demo_load_dir = osp.join(path_util.get_ndf_data(), 'demos',
-            setup_config['demo_exp'])
-
-        grasp_optimizer = self._create_optimizer(self.config_dict['grasp_optimizer'],
-            model, gripper_query_pts, eval_save_dir)
-        place_optimizer = self._create_optimizer(self.config_dict['place_optimizer'],
-            model, rack_query_pts, eval_save_dir)
-
-        experiment = EvaluateRackPlaceGrasp(grasp_optimizer=grasp_optimizer,
-            place_optimizer=place_optimizer,
-            seed=self.seed, shapenet_obj_dir=shapenet_obj_dir,
-            eval_save_dir=eval_save_dir, demo_load_dir=demo_load_dir,
-            **evaluator_config)
-
-        return experiment
-
     def _rack_place_grasp_ideal_setup(self) -> EvaluateNetwork:
         """
         Idealized rack place experiment.  Attempts to grab object with gripper,
@@ -278,41 +146,6 @@ class EvaluateNetworkSetup():
             model, rack_query_pts, eval_save_dir)
 
         experiment = EvaluateRackPlaceGraspIdealStep(grasp_optimizer=grasp_optimizer,
-            place_optimizer=place_optimizer,
-            seed=self.seed, shapenet_obj_dir=shapenet_obj_dir,
-            eval_save_dir=eval_save_dir, demo_load_dir=demo_load_dir,
-            **evaluator_config)
-
-        return experiment
-
-    def _shelf_place_grasp_setup(self) -> EvaluateNetwork:
-        """
-        Raw shelf place experiment.  Uses arm to move object to shelf.
-
-        Returns:
-            EvaluateNetwork: experiment object.
-        """
-        setup_config = self.config_dict['setup_args']
-        obj_class = self.config_dict['evaluator']['test_obj_class']
-
-        model = self._create_model(self.config_dict['model'])
-        gripper_query_pts = self._create_query_pts(self.config_dict['gripper_query_pts'])
-        shelf_query_pts = self._create_query_pts(self.config_dict['shelf_query_pts'])
-        eval_save_dir = self._create_eval_dir(setup_config)
-
-        evaluator_config = self.config_dict['evaluator']
-        shapenet_obj_dir = osp.join(path_util.get_ndf_obj_descriptions(),
-            obj_class + '_centered_obj_normalized')
-
-        demo_load_dir = osp.join(path_util.get_ndf_data(), 'demos',
-            setup_config['demo_exp'])
-
-        grasp_optimizer = self._create_optimizer(self.config_dict['grasp_optimizer'],
-            model, gripper_query_pts, eval_save_dir)
-        place_optimizer = self._create_optimizer(self.config_dict['place_optimizer'],
-            model, shelf_query_pts, eval_save_dir)
-
-        experiment = EvaluateShelfPlaceGrasp(grasp_optimizer=grasp_optimizer,
             place_optimizer=place_optimizer,
             seed=self.seed, shapenet_obj_dir=shapenet_obj_dir,
             eval_save_dir=eval_save_dir, demo_load_dir=demo_load_dir,

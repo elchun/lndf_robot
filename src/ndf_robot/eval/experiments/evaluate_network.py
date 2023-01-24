@@ -48,7 +48,7 @@ class EvaluateNetwork():
     """
     def __init__(self, seed: int, shapenet_obj_dir: str, eval_save_dir: str,
         demo_load_dir: str, test_obj_class: str, pybullet_viz: bool = False, num_trials: int = 200,
-        include_avoid_obj: bool = True, any_pose: bool = True):
+        include_avoid_obj: bool = False, any_pose: bool = True):
 
         self.robot_args = {
             'robot_name': 'franka',

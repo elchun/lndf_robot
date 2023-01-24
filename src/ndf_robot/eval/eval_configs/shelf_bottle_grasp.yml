@@ -16,7 +16,6 @@ evaluator:
   # test_obj_class: bowl_std # Choose from mug, bowl, bottle
   # test_obj_class: mug
   num_trials: 5
-  include_avoid_obj: False
   any_pose: True
   # any_pose: False
   obj_scale_low: 0.95

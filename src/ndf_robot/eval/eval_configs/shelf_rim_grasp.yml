@@ -18,7 +18,6 @@ evaluator:
   test_obj_class: mug_std
 
   num_trials: 5
-  include_avoid_obj: False
   # any_pose: False
   any_pose: True
 

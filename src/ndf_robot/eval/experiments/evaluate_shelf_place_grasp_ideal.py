@@ -43,7 +43,7 @@ class EvaluateShelfPlaceGraspIdeal(EvaluateNetwork):
                  obj_scale_high: float, obj_scale_default: float,
                  pybullet_viz: bool = False,
                  test_obj_class: str = 'mug', num_trials: int = 200,
-                 include_avoid_obj: bool = True, any_pose: bool = True):
+                 include_avoid_obj: bool = False, any_pose: bool = True):
 
         super().__init__(seed, shapenet_obj_dir, eval_save_dir,
             demo_load_dir, test_obj_class, pybullet_viz, num_trials,

@@ -1,0 +1,54 @@
+setup_args:
+  # Directory name
+  exp_dir_suffix: ndf_grasp_evaluation
+
+  # Demonstrations to use
+  demo_exp: 'lndf_mug_handle_demos'
+
+  # Random seed
+  seed: 0
+
+  # Choose from GRASP, RACK_PLACE_GRASP_IDEAL, SHELF_PLACE_GRASP_IDEAL
+  evaluator_type: GRASP
+
+evaluator:
+  # Untested when true
+  pybullet_viz: False
+
+  # Objects to test with, choose from mug_std, bowl_handle_std, bottle_handle_std, bowl_std
+  test_obj_class: mug_std
+
+  # Number of trials, we evaluated  with 200 trials
+  num_trials: 200
+
+  # True to initialize objects at arbitrary poses
+  any_pose: True
+  # any_pose: False
+
+  # Control how much an input object is randomly scaled
+  obj_scale_low: 0.95
+  obj_scale_high: 1.05
+  obj_scale_default: 1.0
+
+# -- NDF Config -- #
+model:
+  type: VNN_NDF
+  checkpoint: ndf_weights.pth
+  args:
+    latent_dim: 256
+    model_type: pointnet
+    return_features: True
+    sigmoid: True
+    acts: all
+
+grasp_optimizer:
+  args:
+    opt_iterations: 500
+    rand_translate: False
+    use_tsne: False
+    M_override: 10
+
+gripper_query_pts:
+  type: NDF_GRIPPER
+  args:
+    n_pts: 1000

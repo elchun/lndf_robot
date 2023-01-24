@@ -14,8 +14,7 @@ evaluator:
   # test_obj_class: bottle_handle_std
   num_trials: 5
   # num_trials: 25
-  # include_avoid_obj: True
-  include_avoid_obj: False  # Legacy, do not change
+
   any_pose: True
   # any_pose: False
 
