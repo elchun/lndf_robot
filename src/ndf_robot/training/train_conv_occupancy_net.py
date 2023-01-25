@@ -23,8 +23,8 @@ if __name__ == '__main__':
     p = configargparse.ArgumentParser()
     p.add('-c', '--config_filepath', required=False, is_config_file=True, help='Path to config file.')
 
-    # p.add_argument('--logging_root', type=str, default=osp.join(path_util.get_ndf_model_weights(), 'ndf_vnn'), help='root for logging')
-    p.add_argument('--logging_root', type=str, default=osp.join(path_util.get_ndf_model_weights(), 'lndf_refined'), help='root for logging')
+    p.add_argument('--logging_root', type=str, default=osp.join(path_util.get_ndf_model_weights(), 'lndf'), help='root for logging')
+    # p.add_argument('--logging_root', type=str, default=osp.join(path_util.get_ndf_model_weights(), 'lndf_refined'), help='root for logging')
     p.add_argument('--obj_class', type=str, required=True,
                 help='bottle, mug, bowl, all')
     p.add_argument('--experiment_name', type=str, required=True,
