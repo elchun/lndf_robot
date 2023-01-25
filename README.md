@@ -8,23 +8,23 @@ PyTorch implementation for training continuous convolutional neural fields to re
 </p>
 
 ## Setup
-**Clone this repo**
+### Clone this repo
 ```
 git clone --recursive git@github.com:elchun/lndf_robot.git
 cd lndf_robot
 ```
-**Install dependencies** (using a virtual environment is highly recommended):
+### Install dependencies (using a virtual environment is highly recommended):
 ```
 pip install -e .
 ```
 
-**Setup additional tools** (Franka Panda inverse kinematics -- unnecessary if not using simulated robot for evaluation):
+### Setup additional tools (Franka Panda inverse kinematics -- unnecessary if not using simulated robot for evaluation):
 ```
 cd pybullet-planning/pybullet_tools/ikfast/franka_panda
 python setup.py
 ```
 
-**Setup torch scatter**  Install with pip or see additional instructions [here](https://github.com/rusty1s/pytorch_scatter#pytorch-140).  Replace `${CUDA}` with the appropriate version (cpu, cu102, cu113, cu116).  Generally, the torch
+### Setup torch scatter  Install with pip or see additional instructions [here](https://github.com/rusty1s/pytorch_scatter#pytorch-140).  Replace `${CUDA}` with the appropriate version (cpu, cu102, cu113, cu116).  Generally, the torch
 and cuda version of torch-scatter should match those of your pytorch installation.  E.g. the output of  `torch.__version__`
 
 For example, the authors installed with `pip install torch-scatter -f https://data.pyg.org/whl/torch-1.10.1+cu102.html`
@@ -33,59 +33,87 @@ For example, the authors installed with `pip install torch-scatter -f https://da
 pip install torch-scatter -f https://data.pyg.org/whl/torch-1.10.1+${CUDA}.html
 ```
 
-**Setup environment variables** (this script must be sourced in each new terminal where code from this repository is run)
+### Setup environment variables (this script must be sourced in each new terminal where code from this repository is run)
 ```
 source lndf_env.sh
 ```
 
 
 ## Quickstart Demo
-**Download pretrained weights**
+### Download pretrained weights
 ```
 ./scripts/download_demo_weights.sh
 ```
 
-**Download demos**
+### Download demos
 ```
 ./scripts/download_demos.sh
 ```
 
-**Download object data**
+### Download object data
 ```
 ./scripts/download_obj_data.sh
 ```
 
+## Evaluate in Simulation
+### Download pretrained weights
+```
+./scripts/download_demo_weights.sh
+```
 
+### Download demos
+```
+./scripts/download_demos.sh
+```
 
-## User Guide
+### Download object data
+```
+./scripts/download_obj_data.sh
+```
 
-### Evaluate Models
-Navigate to the `eval` directory inside `ndf_robot`.  This contains a series
-of scripts to evaluate various portions of the LNDF system.  Files beginning with `s_` are helper scripts used to generate figures or test small components
-of the system.  `evaluate_general.py` is the main evaluation script.
+### Run experiment
+```
+cd src/ndf_robot/eval
+CUDA_VISIBLE_DEVICES=0 python3 evaluate_general.py --config_fname {your_config}
+```
+The configuration files are located in the `eval_configs` directory.  Include the `.yml` extension when specifying the config file.
 
-To run an experiment, `evaluate_general.py` takes an argument `--config_fname`
-which refers to a config file in the `eval/eval_configs` directoy.  These are used to specify what optimizer, model, and experiment setup are used.  Please
-see the example config files for reference on how to construct your own.  Additionally, you may view `evaluate_general.py` to see how the config files
-are parsed.
+For example, evaluating a grasping experiment may use the following command:
+```
+CUDA_VISIBLE_DEVICES=0 python3 evaluate_general.py --config_fname lndf_grasp.yml
+```
 
-### Train Models
+You may create additional experiments by viewing the `tutorial.yml` config file
+in `src/ndf_robot/eval/eval_configs` and creating an appropriate experiment in
+`src/ndf_robot/eval/experiments`.
+
+## Train Models
+### Overview
 Navigate to the `training` directory inside `ndf_robot`.  Run or modify the
-shell script `train.sh` to train the convolutional occupancy network
+shell script `train.sh` to train the convolutional occupancy network.
+
+Two main scripts control how the model is trained:  `train_conv_occupancy_net.py` and `losses.py`.
+The shell script calls `train_conv_occupancy_net.py` which allows the user
+to specify the model and loss function to use.  These loss functions are defined
+in `losses.py`.  A user may use the given loss functions or test additional loss functions
 
 To evaluate a new set of weights, the `s_vis_correspondance.py` script is
 convenient.  By setting the model_path and obj_model variables, you can compare
-the latent representation of an unrotated and rotated version of the same object.
-This allows you to check how strongly SE(3) equivariance is enforced.
+the latent representation of an unrotated and rotated version of the
+same object. This allows you to check how strongly SE(3) equivariance
+is enforced.
 
-### Add demonstrations
+### Loss functions
+TODO
+
+## Add demonstrations
 Navigate to the `demonstrations` directory inside `ndf_robot`.  Use the
 `label_demos.py` script to log new demonstrations.  The current evaluator uses
 a slightly different file format than the output of `label_demos.py` so you
 must run the `convert_demos.py` script to convert the demonstrations into the
 new file format.
 
-### Advanced Changes
+## Advanced Changes
 
 - Add or modify models: Use the `descriptions` directory to modify or add new models.
 - Modify optimizer: See both the deep or geometric optimizer classes in the `opt` directory.
