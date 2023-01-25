@@ -140,6 +140,7 @@ between $x_0$ and $x_i$ predicts that $x_i = x_0$ with probability $p_i$.
 
 In the `contrastive_l2` loss, we also calculate the euclidean distance between
 the sample and target points.  However, for each target point $x_i$, we instead create a target value $t_i$ defined by
+
 $$
 t_i = 2*\exp({-d_i^2 * \frac{\ln{2}}{r^2}}) - 1
 $$
