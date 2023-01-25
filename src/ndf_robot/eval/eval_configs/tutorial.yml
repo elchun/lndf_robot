@@ -1,0 +1,99 @@
+setup_args:
+  # Directory name
+  exp_dir_suffix: tutorial_trials
+
+  # Demonstrations to use
+  demo_exp: 'lndf_mug_demos'
+
+  # Random Seed
+  seed: 0
+
+  # Choose from GRASP, RACK_PLACE_GRASP_IDEAL, SHELF_PLACE_GRASP_IDEAL
+  evaluator_type: RACK_PLACE_GRASP_IDEAL
+
+# Evaluation configs
+evaluator:
+  # Leave this as true
+  pybullet_viz: False
+
+  # Choose from mug_std, bowl_std, bottle_std, bowl_handle_std, bottle_handle_std,
+  test_obj_class: mug_std
+
+  # Number of trials, we evaluated with 200 trials
+  num_trials: 5
+
+  # True to initialize objects at arbitrary poses
+  any_pose: True
+
+  # Control how much an input object is randomly scaled
+  obj_scale_low: 0.95
+  obj_scale_high: 1.05
+  obj_scale_default: 1.0
+
+# Model configs
+model:
+  # CONV_OCC (lndf) or VNN_NDF (ndf)
+  type: CONV_OCC
+
+  # Model weights in the model_weights directory
+  checkpoint: lndf_weights.pth
+
+  # Model specific configs
+  args:
+    latent_dim: 128
+    model_type: pointnet
+    return_features: True
+    sigmoid: False
+    acts: last
+
+# Configs for grasp optimizer
+grasp_optimizer:
+  # Set opt_type to GEOM to use a geometric optimizer,
+  # All other opt types will use the model specified above.
+  opt_type:  LNDF
+  args:
+    opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+    cos_loss: True
+
+    # Save all optimization results, helpful for visualizing model
+    # but takes large amounts of space.
+    save_all_opt: False
+
+place_optimizer:
+  opt_type:  LNDF # Choose between LNDF and GEOM
+  args:
+    opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+    opt_fname_prefix: 'place_pose_optimized'
+    query_pts_override: True
+    cos_loss: True
+
+# Define the query points.  See query_points.py in the eval
+# directory for more info
+rack_query_pts:
+  type: ARM
+  args:
+    n_pts: 1000
+    radius: 0.05
+    height: 0.04
+    y_rot_rad: 0.68
+    x_trans: 0.055
+    y_trans: 0
+    z_trans: 0.19
+
+# With rect query points, z1 is actually pointing up when
+# used as a query point
+# y is along the gripper movement direction
+gripper_query_pts:
+  type: RECT
+  args:
+    n_pts: 1000
+    x: 0.06
+    y: 0.09
+    z1: 0.06
+    z2: 0.02

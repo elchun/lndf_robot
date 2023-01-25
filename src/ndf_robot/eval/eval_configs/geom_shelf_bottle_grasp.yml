@@ -1,0 +1,81 @@
+setup_args:
+  exp_dir_suffix: shelf_bottle_grasp
+
+  demo_exp: 'lndf_bottle_demos'
+  seed: 0
+  # Choose from GRASP, RACK_PLACE_GRASP_IDEAL, SHELF_PLACE_GRASP_IDEAL
+  evaluator_type: SHELF_PLACE_GRASP_IDEAL
+
+evaluator:
+  pybullet_viz: False
+  test_obj_class: bottle_std # Choose from mug, bowl, bottle
+  # test_obj_class: bottle_handle_std # Choose from mug, bowl, bottle
+  # test_obj_class: bowl_std # Choose from mug, bowl, bottle
+  # test_obj_class: mug
+
+  num_trials: 5
+  any_pose: True
+  # any_pose: False
+  obj_scale_low: 0.95
+  obj_scale_high: 1.05
+  obj_scale_default: 1.0
+
+# -- GEOM config -- #
+model:
+  type: CONV_OCC
+  checkpoint: lndf_weights.pth
+
+  args:
+    latent_dim: 128
+    model_type: pointnet
+    return_features: True
+    sigmoid: False
+    acts: last
+
+
+grasp_optimizer:
+  opt_type: GEOM
+  args:
+    # opt_iterations: 1000
+    opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+    cos_loss: True
+    # save_all_opt: True
+
+place_optimizer:
+  opt_type: GEOM
+  args:
+    # opt_iterations: 1000
+    opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+    opt_fname_prefix: 'place_pose_optimized'
+    query_pts_override: True
+    cos_loss: True
+
+gripper_query_pts:
+  type: RECT
+  args:
+    n_pts: 1000
+    x: 0.04
+    # y: 0.04
+    y: 0.05
+    z1: 0.04
+    z2: 0.01
+
+shelf_query_pts:
+  type: SHELF
+  args:
+    n_pts: 1000
+    # radius: 0.03
+    # radius: 0.08
+    radius: 0.03
+    height: 0.30
+    y_rot_rad: 0.0
+    x_trans: 0.0
+    y_trans: 0.07
+    # z_trans: 0.11
+    z_trans: 0.08

@@ -1,0 +1,63 @@
+setup_args:
+  exp_dir_suffix: DEBUG_rack_grasp_new_setup
+
+  demo_exp: 'lndf_mug_demos'
+  seed: 0
+
+  # Choose from GRASP, RACK_PLACE_GRASP_IDEAL, SHELF_PLACE_GRASP_IDEAL
+  evaluator_type: RACK_PLACE_GRASP_IDEAL
+
+evaluator:
+  pybullet_viz: False
+  # Choose from mug_std, bowl_handle_std, bottle_handle_std
+  test_obj_class: mug_std
+  # test_obj_class: bowl_handle_std
+  # test_obj_class: bottle_handle_std
+
+  num_trials: 5
+
+  any_pose: True
+  # any_pose: False
+
+  # Same for all trials
+  obj_scale_low: 0.95
+  obj_scale_high: 1.05
+  obj_scale_default: 1.0
+
+# -- NDF Config -- #
+model:
+  type: VNN_NDF
+  checkpoint: ndf_weights.pth
+  args:
+    latent_dim: 256
+    model_type: pointnet
+    return_features: True
+    sigmoid: True
+    acts: all
+
+grasp_optimizer:
+  args:
+    opt_iterations: 500
+    rand_translate: False
+    use_tsne: False
+    M_override: 10
+
+place_optimizer:
+  args:
+    opt_iterations: 500
+    rand_translate: False
+    use_tsne: False
+    opt_fname_prefix: 'place_pose_optimized'
+    M_override: 10
+
+# Original ndf
+gripper_query_pts:
+  type: NDF_GRIPPER
+  args:
+    n_pts: 1000
+
+# Original ndf
+rack_query_pts:
+  type: NDF_RACK
+  args:
+    n_pts: 1000

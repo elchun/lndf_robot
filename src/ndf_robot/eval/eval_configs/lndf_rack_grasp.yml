@@ -1,0 +1,85 @@
+setup_args:
+  exp_dir_suffix: DEBUG_rack_grasp_new_setup
+
+  demo_exp: 'lndf_mug_demos'
+  seed: 0
+
+  # Choose from GRASP, RACK_PLACE_GRASP_IDEAL, SHELF_PLACE_GRASP_IDEAL
+  evaluator_type: RACK_PLACE_GRASP_IDEAL
+
+evaluator:
+  pybullet_viz: False
+  # Choose from mug_std, bowl_handle_std, bottle_handle_std
+  test_obj_class: mug_std
+  # test_obj_class: bowl_handle_std
+  # test_obj_class: bottle_handle_std
+
+  num_trials: 5
+
+  any_pose: True
+  # any_pose: False
+
+  # Same for all trials
+  obj_scale_low: 0.95
+  obj_scale_high: 1.05
+  obj_scale_default: 1.0
+
+# -- Conv config -- #
+model:
+  type: CONV_OCC
+
+  checkpoint: lndf_weights.pth
+
+  args:
+    latent_dim: 128
+    model_type: pointnet
+    return_features: True
+    sigmoid: False
+    acts: last
+
+
+grasp_optimizer:
+  opt_type:  LNDF # Choose between LNDF and GEOM
+  args:
+    # opt_iterations: 1000
+    opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+    cos_loss: True
+    # save_all_opt: True
+
+place_optimizer:
+  opt_type:  LNDF # Choose between LNDF and GEOM
+  args:
+    # opt_iterations: 1000
+    opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+    opt_fname_prefix: 'place_pose_optimized'
+    query_pts_override: True
+    cos_loss: True
+
+rack_query_pts:
+  type: ARM
+  args:
+    n_pts: 1000
+    radius: 0.05
+    height: 0.04
+    y_rot_rad: 0.68
+    x_trans: 0.055
+    y_trans: 0
+    z_trans: 0.19
+
+# With rect query points, z1 is actually pointing up when
+# used as a query point
+# y is along the gripper movement direction
+gripper_query_pts:   # This is the set used in the original conv occ trials
+  type: RECT
+  args:
+    n_pts: 1000
+    x: 0.06
+    y: 0.09
+    z1: 0.06
+    z2: 0.02

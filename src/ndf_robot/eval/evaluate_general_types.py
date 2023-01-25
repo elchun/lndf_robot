@@ -259,6 +259,7 @@ class SimConstants:
 
         'fc77ad0828db2caa533e44d90297dd6e',
         '64d7f5eb886cfa48ce6101c7990e61d4',
+        'bd2ba805bf1739cdedd852e9640b8d4'
     }
 
     BOTTLE_AVOID_SHAPENET_IDS = {

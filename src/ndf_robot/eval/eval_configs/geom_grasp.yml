@@ -1,0 +1,68 @@
+setup_args:
+  # Directory name
+  exp_dir_suffix: geometric_grasp_evaluation
+
+  # Demonstrations to use
+  demo_exp: 'lndf_mug_handle_demos'
+
+  # Random seed
+  seed: 0
+
+  # Choose from GRASP, RACK_PLACE_GRASP_IDEAL, SHELF_PLACE_GRASP_IDEAL
+  evaluator_type: GRASP
+
+evaluator:
+  # Untested when true
+  pybullet_viz: False
+
+  # Objects to test with, choose from mug_std, bowl_handle_std, bottle_handle_std, bowl_std
+  test_obj_class: mug_std
+  # test_obj_class: bowl_handle_std
+  # test_obj_class: bottle_handle_std
+  # test_obj_class: bowl_std
+
+  # Number of trials, we evaluated  with 200 trials
+  num_trials: 200
+
+  # True to initialize objects at arbitrary poses
+  any_pose: True
+  # any_pose: False
+
+  # Control how much an input object is randomly scaled
+  obj_scale_low: 0.95
+  obj_scale_high: 1.05
+  obj_scale_default: 1.0
+
+# -- Conv config -- #
+model:
+  type: CONV_OCC
+  checkpoint: lndf_weights.pth
+
+  args:
+    latent_dim: 128  # Specify size of latent dimension
+    model_type: pointnet
+    return_features: True
+    sigmoid: False
+    acts: last
+
+grasp_optimizer:
+  opt_type: GEOM  # Uses a geometric optimizer instead of LNDF
+  args:
+    opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 20
+
+    # Save all optimization solutions.  Helpful for debugging but takes
+    # a lot of space.
+    save_all_opt: False
+
+# For handle
+gripper_query_pts:
+  type: RECT
+  args:
+    n_pts: 1000
+    x: 0.08
+    y: 0.04
+    z1: 0.05
+    z2: 0.02

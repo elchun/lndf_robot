@@ -7,6 +7,7 @@ eval/*
 !eval/old
 !eval/experiments
 !eval/eval_configs/
+!eval/scripts/
 !eval/reference_query_points.npz
 data/
 assets/

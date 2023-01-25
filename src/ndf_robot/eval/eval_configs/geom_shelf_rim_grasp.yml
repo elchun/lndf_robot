@@ -1,0 +1,86 @@
+setup_args:
+  exp_dir_suffix: geom_shelf_rim_grasp
+  demo_exp: 'lndf_bowl_demos'
+  seed: 0
+  # Choose from GRASP, RACK_PLACE_TELEPORT, SHELF_PLACE_TELEPORT, RACK_PLACE_GRASP
+  evaluator_type: SHELF_PLACE_GRASP_IDEAL
+
+evaluator:
+  pybullet_viz: False
+  test_obj_class: bowl_std
+  # test_obj_class: bowl_handle_std
+  # test_obj_class: mug_std
+
+  num_trials: 5
+  # any_pose: False
+  any_pose: True
+
+  obj_scale_low: 0.95
+  obj_scale_high: 1.05
+  obj_scale_default: 1.0
+
+# -- Geom config -- #
+model:
+  type: CONV_OCC
+
+  checkpoint: lndf_weights.pth
+
+  args:
+    latent_dim: 128
+    model_type: pointnet
+    return_features: True
+    sigmoid: False
+    acts: last
+
+
+grasp_optimizer:
+  opt_type:  GEOM # Choose between LNDF and GEOM
+  args:
+    # opt_iterations: 1000
+    opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 1
+
+place_optimizer:
+  opt_type:  GEOM # Choose between LNDF and GEOM
+  args:
+    # opt_iterations: 1000
+    opt_iterations: 500
+    rand_translate: True
+    use_tsne: False
+    M_override: 1
+    opt_fname_prefix: 'place_pose_optimized'
+    # query_pts_override: True
+
+rack_query_pts:
+  type: ARM
+  args:
+    n_pts: 1000
+    radius: 0.05
+    height: 0.04
+    y_rot_rad: 0.68
+    x_trans: 0.055
+    y_trans: 0
+    z_trans: 0.19
+
+# -- Query points from handle grasping -- #
+gripper_query_pts:
+  type: RECT
+  args:
+    n_pts: 1000
+    x: 0.06
+    y: 0.04
+    z1: 0.05
+    z2: 0.02
+
+shelf_query_pts:
+  type: SHELF
+  args:
+    n_pts: 1000
+    radius: 0.06
+    height: 0.10
+    y_rot_rad: 0.0
+    x_trans: 0.0
+    y_trans: 0.07
+    z_trans: 0.08

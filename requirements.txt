@@ -15,8 +15,8 @@ progressbar2
 # opencv-python
 opencv-python==4.6.0.66
 PyYAML
-# gym
-# pygame
+gym
+pygame
 transforms3d
 sympy
 tinydb
@@ -28,7 +28,7 @@ meshcat
 pyglet
 healpy
 configargparse
-#open3d>=0.11
+open3d>=0.11
 pynput>=1.7.3
 ipython
 tqdm
