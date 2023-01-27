@@ -166,7 +166,7 @@ def plot3d(pts_list, colors=['black'], fname='default_3d.html',
     return fig
 
 
-def multiplot(point_list: 'list[np.ndarray]', fname='debug.html'):
+def multiplot(point_list: 'list[np.ndarray]', fname='debug.html', write_html=True):
     """
     Plot each group of points in {point_list} in a different color on the same
     graph and saves to {fname}.
@@ -194,6 +194,10 @@ def multiplot(point_list: 'list[np.ndarray]', fname='debug.html'):
     fig = px.scatter_3d(
         x=plot_pts[:, 0], y=plot_pts[:, 1], z=plot_pts[:, 2], color=color)
 
-    fig.write_html(fname)
+    fig.update_layout(coloraxis=dict(cmax=max(color) + 1, cmin=-1))
+
+    if write_html:
+        fig.write_html(fname)
 
     return fig
+

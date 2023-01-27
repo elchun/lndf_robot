@@ -189,7 +189,7 @@ class OccNetOptimizer:
         # print('target_act_hat: ', self.target_act_hat)
 
     def optimize_transform_implicit(self, shape_pts_world_np, viz_path='visualize',
-        ee=True, *args, **kwargs):
+        ee=True, return_intermediates=False, *args, **kwargs):
         """
         Function to optimzie the transformation of our query points, conditioned on
         a set of shape points observed in the world
@@ -309,6 +309,9 @@ class OccNetOptimizer:
         # -- Visualize reconstruction -- #
         self._visualize_reconstruction(mi, viz_path)
 
+
+        trans_mat_list = []
+        rot_mat_list = []
         # -- Run optimization -- #
         for i in range(self.opt_iterations):
             T_mat = torch_util.angle_axis_to_rotation_matrix(rot).squeeze()
@@ -331,6 +334,11 @@ class OccNetOptimizer:
                 losses_str = ['%f' % val.item() for val in losses]
                 loss_str = ', '.join(losses_str)
                 log_debug(f'i: {i}, losses: {loss_str}')
+
+            if return_intermediates and (i + 1) % 10 == 0:
+                trans_mat_list.append(trans.detach().cpu())
+                rot_mat_list.append(rot.detach().cpu())
+
             loss_values.append(loss.item())
             full_opt.zero_grad()
             loss.backward()
@@ -370,7 +378,33 @@ class OccNetOptimizer:
                 T_mat = np.linalg.inv(transform_mat_np)
             tf_list.append(T_mat)
 
-        return tf_list, best_idx
+        # For visualization
+        if return_intermediates:
+            intermediates = []
+            for iteration in range(len(trans_mat_list)):
+                iter_intermediates = []
+                for j in range(M):
+                    trans_j = trans_mat_list[iteration][j]
+                    rot_j = rot_mat_list[iteration][j]
+
+                    transform_mat_np = torch_util.angle_axis_to_rotation_matrix(
+                        rot_j.view(1, -1)).squeeze().numpy()
+                    transform_mat_np[:-1, -1] = trans_j.numpy()
+
+                    transform_mat_np = np.matmul(transform_mat_np, rand_mat_init[j].detach().cpu().numpy())
+                    transform_mat_np = np.matmul(obj_mean_trans, transform_mat_np)
+
+                    if ee:
+                        T_mat = transform_mat_np
+                    else:
+                        T_mat = np.linalg.inv(transform_mat_np)
+
+                    iter_intermediates.append(T_mat)
+                intermediates.append(iter_intermediates)
+
+            return tf_list, best_idx, intermediates
+        else:
+            return tf_list, best_idx
 
     def _visualize_reconstruction(self, model_input, viz_path):
         """
@@ -458,5 +492,3 @@ class OccNetOptimizer:
                             z=pcd_small[:, 2], color=tsne_result[:, 0])
 
         fig.write_html(output_fn)
-
-

@@ -4,6 +4,7 @@ model_weights/
 eval/*
 !eval/*.py
 !eval/*.sh
+!eval/*.ipynb
 !eval/old
 !eval/experiments
 !eval/eval_configs/
