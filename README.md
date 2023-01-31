@@ -145,7 +145,7 @@ $$
 t_i = 2*\exp({-d_i^2 * \frac{\ln{2}}{r^2}}) - 1
 $$
 
-Where $d_i$ is the distance between $x_i$ and $x_0$ and $r$ is a constant that defines the steepness of this distribution.  This function enforces an exponential decay as a function of $d_i$ where $r$ is the distance at which $t_i = 0$.  Additionally, this function is bound between 0 and 1.
+Where $d_i$ is the distance between $x_i$ and $x_0$ and $r$ is a constant that defines the steepness of this distribution.  This function enforces an exponential decay as a function of $d_i$ where $r$ is the distance at which $t_i = 0$.  Additionally, this function is bound between 1 and -1.
 
 We calculate then drive the cosine similarity of the latent code of $x_0$ and $x_i$ to this $t_i$ value using L2 loss.
 
