@@ -122,7 +122,7 @@ latent codes.
 
 **Contrastive Cross Entropy**
 
-In the `contrastive_cross_entropy` loss, we enforce this similarity by
+In `contrastive_cross_entropy` loss, we enforce this similarity by
 calculating the euclidean distance between the sample and target points
 (assuming both are on the same mug).  We then produce a probability distribution
 where the probability assigned to a target point is
@@ -131,14 +131,14 @@ $$
 p_i = \frac{1 / (d_i + \epsilon)}{\sum_j{1/(d_j + \epsilon)}}
 $$
 
-where $d$ is the distance between the sample and target points and $\epsilon$ is
+where $d_i$ is the distance between the sample and target points and $\epsilon$ is
 a constant set prior to training which dictates how sharply $p_i$ increases as the target points get closer to the sample point.
 We then consider this loss as a prediction problem where the cosine similarity
 between $x_0$ and $x_i$ predicts that $x_i = x_0$ with probability $p_i$.
 
 **Contrastive L2**
 
-In the `contrastive_l2` loss, we also calculate the euclidean distance between
+In `contrastive_l2` loss, we also calculate the euclidean distance between
 the sample and target points.  However, for each target point $x_i$, we instead create a target value $t_i$ defined by
 
 $$
