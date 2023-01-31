@@ -1,3 +1,5 @@
+# Unknown what this script does.  Probably not important
+
 import os.path as osp
 import numpy as np
 from scipy.io import loadmat
