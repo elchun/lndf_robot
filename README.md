@@ -192,6 +192,29 @@ python label_demos.py --exp test_bottle --object_class bottle --with_shelf
 ```
 More information on collecting robot demonstrations can be found [here](./doc/demonstrations.md).
 
+# Citing
+If you find our paper or this code useful in your work, please cite our paper:
+```
+TODO
+<!-- @article{simeonovdu2021ndf,
+  title={Neural Descriptor Fields: SE(3)-Equivariant Object Representations for Manipulation},
+  author={Simeonov, Anthony and Du, Yilun and Tagliasacchi, Andrea and Tenenbaum, Joshua B. and Rodriguez, Alberto and Agrawal, Pulkit and Sitzmann, Vincent},
+  journal={arXiv preprint arXiv:2112.05124},
+  year={2021}
+} -->
+```
+
+# Acknowledgements
+Parts of this code were built upon the implementations found in the [convolutional occupancy networks repo](https://github.com/autonomousvision/convolutional_occupancy_networks), the [neural descriptor field repo](https://github.com/anthonysimeonov/ndf_robot), the [occupancy networks repo](https://github.com/autonomousvision/occupancy_networks) and the [vector neurons repo](https://github.com/FlyingGiraffe/vnn). Check out their projects as well!
+
+
+
+
+
+
+
+
+
 
 
 
