@@ -13,6 +13,11 @@ PyTorch implementation for training continuous convolutional neural fields to re
 git clone --recursive git@github.com:elchun/lndf_robot.git
 cd lndf_robot
 ```
+
+### Create virtual enviroment
+
+If using conda, we recommend python 3.6 although newer python distributions are likely to work as well.
+
 ### Install dependencies (using a virtual environment is highly recommended):
 ```
 pip install -e .
