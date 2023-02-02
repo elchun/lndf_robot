@@ -23,6 +23,13 @@ If using conda, we recommend python 3.6 although newer python distributions are 
 pip install -e .
 ```
 
+If you have installed similar packages before, adding the `--no-cache-dir` flag may
+make pip install faster.
+
+```
+pip install -e . --no-cache-dir
+```
+
 ### Setup additional tools (Franka Panda inverse kinematics -- unnecessary if not using simulated robot for evaluation):
 ```
 cd pybullet-planning/pybullet_tools/ikfast/franka_panda
