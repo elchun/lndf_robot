@@ -34,6 +34,7 @@ pip install -e . --no-cache-dir
 ```
 cd pybullet-planning/pybullet_tools/ikfast/franka_panda
 python setup.py
+cd ../../../../
 ```
 
 
@@ -57,7 +58,7 @@ source lndf_env.sh
 ## Quickstart Demo
 ### Download pretrained weights
 ```
-./scripts/download_demo_weights.sh
+./scripts/download_weights.sh
 ```
 
 ### Download demos
@@ -69,6 +70,15 @@ source lndf_env.sh
 ```
 ./scripts/download_obj_data.sh
 ```
+
+### Run quickstart demo
+
+```
+cd src/ndf_robot/eval
+```
+
+Then open and run `quickstart_demo.ipynb`.
+
 
 ## Evaluate in Simulation
 ### Download pretrained weights
