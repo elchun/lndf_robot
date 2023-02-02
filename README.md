@@ -77,7 +77,9 @@ source lndf_env.sh
 cd src/ndf_robot/eval
 ```
 
-Then open and run `quickstart_demo.ipynb`.
+Then open and run `quickstart_demo.ipynb`.  If you are running on a remote server, see
+[here](https://docs.anaconda.com/anaconda/user-guide/tasks/remote-jupyter-notebook/) for 
+reference on how to run the jupyter notebook.
 
 
 ## Evaluate in Simulation
