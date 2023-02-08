@@ -10,7 +10,7 @@ This is the reference implementation for our paper:
 
 ### Local Neural Descriptor Fields: Locally Conditioned Object Representations for Manipulation
 
-[PDF](https://arxiv.org/abs/2302.03573) | [Video](https://youtu.be/hnWSNWe_Fnw)
+[PDF](https://arxiv.org/abs/2302.03573) | [Website](https://elchun.github.io/lndf/)
 
 [Ethan Chun](https://elchun.github.io/), [Yilun Du](https://yilundu.github.io/),
 [Tom&aacute;s Lozano-Perez](http://people.csail.mit.edu/tlp/),  [Leslie Pack Kaelbling](http://people.csail.mit.edu/lpk/)
