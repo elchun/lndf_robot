@@ -230,7 +230,7 @@ If you find our paper or this code useful in your work, please cite our paper:
 @article{chundu2023lndf,
   title = {Local Neural Descriptor Fields: Locally Conditioned Object Representations for Manipulation},
   author = {Chun, Ethan and Du, Yilun and Simeonov, Anthony and Lozano-Perez, Tomas and Kaelbling, Leslie},
-  journal={arXiv preprint arXiv:2302.03573},
+  journal = {arXiv preprint arXiv:2302.03573},
   year = {2023}
 }
 ```
