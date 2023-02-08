@@ -13,7 +13,7 @@ This is the reference implementation for our paper:
 [PDF](https://arxiv.org/abs/2302.03573) | [Video](https://youtu.be/hnWSNWe_Fnw)
 
 [Ethan Chun](https://elchun.github.io/), [Yilun Du](https://yilundu.github.io/),
-[Tom&aacute;s Lozano Per](http://people.csail.mit.edu/tlp/),  [Leslie Pack Kaelbling](http://people.csail.mit.edu/lpk/)
+[Tom&aacute;s Lozano-Perez](http://people.csail.mit.edu/tlp/),  [Leslie Pack Kaelbling](http://people.csail.mit.edu/lpk/)
 
 ## Setup
 ### Clone this repo
